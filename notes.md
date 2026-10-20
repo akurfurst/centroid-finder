@@ -47,4 +47,3 @@
 - The image is then binarized used the DistanceImageBinarizer using a EuclideanColorDistance.
 - This image becomes a binaryImage which is passed to the BinarizingImageGroupFinder to return the pixel groups in the image.
 - These groups are then printed to a the 'groups.csv' file.
-
