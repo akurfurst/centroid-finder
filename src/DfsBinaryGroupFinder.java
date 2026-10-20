@@ -43,6 +43,7 @@ public class DfsBinaryGroupFinder implements BinaryGroupFinder {
                 }
             }
         }
+        //TODO sort the list in descending order
         return clusters;
     }
 
