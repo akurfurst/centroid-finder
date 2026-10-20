@@ -1,4 +1,7 @@
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class DfsBinaryGroupFinder implements BinaryGroupFinder {
    /**
@@ -30,6 +33,22 @@ public class DfsBinaryGroupFinder implements BinaryGroupFinder {
     */
     @Override
     public List<Group> findConnectedGroups(int[][] image) {
+        List<Group> clusters = new ArrayList<>();
+        Set<Coordinate> visited = new HashSet<>();
+        for(int r = 0; r < image.length; r++){
+            for(int c = 0; c < image[r].length; c++){
+                Coordinate current = new Coordinate(c, r);
+                if(!visited.contains(current) && image[current.y()][current.x()] == 1){
+                    clusters.add(dfs(image, current, visited));
+                }
+            }
+        }
+        return clusters;
+    }
+
+    //dfs search. In here we will need to find the size of the cluster, and calculate the center of the cluster. Return the size and 
+    //center as a group. 
+    private Group dfs(int[][] image, Coordinate current, Set<Coordinate> visited){
         return null;
     }
     
