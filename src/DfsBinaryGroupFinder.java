@@ -50,12 +50,21 @@ public class DfsBinaryGroupFinder implements BinaryGroupFinder {
 
     //dfs search. In here we will need to find the size of the cluster, and calculate the center of the cluster. Return the size and 
     //center as a group. 
-    private Group dfs(int[][] image, Coordinate current, Set<Coordinate> visited){
+    private Group dfs(int[][] image, Coordinate start, Set<Coordinate> visited){
         int totalX = 0;
         int totalY = 0;
         int size = 0;
         Stack<Coordinate> stack = new Stack<>();
-        stack.push(current);
+        stack.push(start);
+        while(!stack.isEmpty()){
+            Coordinate current = stack.pop();
+            if(visited.contains(current)) continue;
+            visited.add(current);
+            totalX += current.x();
+            totalY += current.y();
+            size++;
+            
+        }
         return null;
     }
     
