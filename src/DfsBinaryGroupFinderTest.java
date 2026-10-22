@@ -135,6 +135,14 @@ class DfsBinaryGroupFinderTest {
                 () -> finder.findConnectedGroups(new int[][] { {} }));
     }
 
+    @Test
+    void rejectsRowsWithDifferentLengths() {
+        assertThrows(IllegalArgumentException.class,
+                () -> finder.findConnectedGroups(new int[][] {
+                        { 1, 0 },
+                        { 1 }
+                }));
+    }
 
     @Test
     void rejectsValuesAboveOne() {
