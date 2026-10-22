@@ -61,5 +61,25 @@ public class DfsBinaryGroupFinder implements BinaryGroupFinder {
         stack.push(current);
         return null;
     }
+
+    private List<Coordinate> possibleMoves(int[][] image, Coordinate current) {
+        List<Coordinate> list = new ArrayList<>();
+
+        int[][] directions = {
+            {-1,  0},
+            { 1,  0},
+            { 0, -1},
+            { 0,  1}
+        };
+
+        for (var dir : directions) {
+            int row = current.y() + dir[0];
+            int col = current.x() + dir[1];
+            if (row < 0 || row >= image.length || col < 0 || col >= image[0].length) continue;
+            list.add(new Coordinate(col, row));
+        }
+
+        return list;
+    }
     
 }
