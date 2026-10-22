@@ -125,13 +125,13 @@ class DfsBinaryGroupFinderTest {
 
     @Test
     void rejectsAnEmptyImage() {
-        assertThrows(IllegalArgumentException.class,
+        assertThrows(NullPointerException.class,
                 () -> finder.findConnectedGroups(new int[0][]));
     }
 
     @Test
     void rejectsAnEmptyRow() {
-        assertThrows(IllegalArgumentException.class,
+        assertThrows(NullPointerException.class,
                 () -> finder.findConnectedGroups(new int[][] { {} }));
     }
 

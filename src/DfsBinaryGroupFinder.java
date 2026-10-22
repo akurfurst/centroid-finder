@@ -36,12 +36,19 @@ public class DfsBinaryGroupFinder implements BinaryGroupFinder {
     public List<Group> findConnectedGroups(int[][] image) {
         List<Group> clusters = new ArrayList<>();
         Set<Coordinate> visited = new HashSet<>();
+        if (image.length == 0) throw new NullPointerException("Image cannot be null");
         for(int r = 0; r < image.length; r++){
+            if (image[r].length == 0) throw new NullPointerException("Image cannot contain null subarray");
+            System.out.println(r);
+            if (image[r].length != image[0].length) throw new IllegalArgumentException("Image must be rectangular");
             for(int c = 0; c < image[r].length; c++){
+                System.out.println(r +" "+c);
                 Coordinate current = new Coordinate(c, r);
-                if(!visited.contains(current) && image[current.y()][current.x()] == 1){
-                    clusters.add(dfs(image, current, visited));
-                }
+                if (!visited.contains(current)) {
+                    if(image[current.y()][current.x()] == 1){
+                        clusters.add(dfs(image, current, visited));
+                    } else if (image[current.y()][current.x()] != 0) throw new IllegalArgumentException("Must contain only 1s and 0s");  
+                }   
             }
         }
 
@@ -87,7 +94,7 @@ public class DfsBinaryGroupFinder implements BinaryGroupFinder {
         for (var dir : directions) {
             int row = current.y() + dir[0];
             int col = current.x() + dir[1];
-            if (row < 0 || row >= image.length || col < 0 || col >= image[0].length) continue;
+            if (row < 0 || row >= image.length || col < 0 || col >= image[row].length) continue;
             if (image[row][col] == 0) continue;
             list.add(new Coordinate(col, row));
         }
