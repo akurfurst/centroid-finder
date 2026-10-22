@@ -39,10 +39,8 @@ public class DfsBinaryGroupFinder implements BinaryGroupFinder {
         if (image.length == 0) throw new NullPointerException("Image cannot be null");
         for(int r = 0; r < image.length; r++){
             if (image[r].length == 0) throw new NullPointerException("Image cannot contain null subarray");
-            System.out.println(r);
             if (image[r].length != image[0].length) throw new IllegalArgumentException("Image must be rectangular");
             for(int c = 0; c < image[r].length; c++){
-                System.out.println(r +" "+c);
                 Coordinate current = new Coordinate(c, r);
                 if (!visited.contains(current)) {
                     if(image[current.y()][current.x()] == 1){
