@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Stack;
 
 public class DfsBinaryGroupFinder implements BinaryGroupFinder {
    /**
@@ -53,6 +54,11 @@ public class DfsBinaryGroupFinder implements BinaryGroupFinder {
     //dfs search. In here we will need to find the size of the cluster, and calculate the center of the cluster. Return the size and 
     //center as a group. 
     private Group dfs(int[][] image, Coordinate current, Set<Coordinate> visited){
+        int totalX = 0;
+        int totalY = 0;
+        int size = 0;
+        Stack<Coordinate> stack = new Stack<>();
+        stack.push(current);
         return null;
     }
     
