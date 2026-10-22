@@ -66,9 +66,11 @@ public class DfsBinaryGroupFinder implements BinaryGroupFinder {
             totalX += current.x();
             totalY += current.y();
             size++;
-            
+
         }
-        return null;
+        int avgX = totalX / size;
+        int avgY = totalY / size;
+        return new Group(size, new Coordinate(avgX, avgY));
     }
     
 }
