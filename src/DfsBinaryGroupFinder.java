@@ -66,6 +66,7 @@ public class DfsBinaryGroupFinder implements BinaryGroupFinder {
             totalX += current.x();
             totalY += current.y();
             size++;
+            for(Coordinate move : possibleMoves(image, current)) stack.push(move);
 
         }
         int avgX = totalX / size;
