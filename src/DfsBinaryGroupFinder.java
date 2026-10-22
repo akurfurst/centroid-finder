@@ -44,7 +44,10 @@ public class DfsBinaryGroupFinder implements BinaryGroupFinder {
                 }
             }
         }
-        //TODO sort the list in descending order
+
+        clusters.sort((a,b) -> {
+            return -(a.compareTo(b));
+        });
         return clusters;
     }
 
