@@ -87,6 +87,7 @@ public class DfsBinaryGroupFinder implements BinaryGroupFinder {
             int row = current.y() + dir[0];
             int col = current.x() + dir[1];
             if (row < 0 || row >= image.length || col < 0 || col >= image[0].length) continue;
+            if (image[row][col] == 0) continue;
             list.add(new Coordinate(col, row));
         }
 
