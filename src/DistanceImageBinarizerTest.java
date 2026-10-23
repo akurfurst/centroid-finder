@@ -1,4 +1,5 @@
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.awt.image.BufferedImage;
 
@@ -6,6 +7,60 @@ import org.junit.jupiter.api.Test;
 
 class DistanceImageBinarizerTest {
     private static final int TARGET_COLOR = 0xFFA200;
+
+    @Test
+    void convertsZeroValuesToBlackPixels() {
+        DistanceImageBinarizer binarizer =
+                new DistanceImageBinarizer(new EuclideanColorDistance(), TARGET_COLOR, 10);
+
+        BufferedImage image = binarizer.toBufferedImage(new int[][] {
+                { 0, 0 },
+                { 0, 0 }
+        });
+
+        assertEquals(2, image.getWidth());
+        assertEquals(2, image.getHeight());
+        assertEquals(0xFF000000, image.getRGB(0, 0));
+        assertEquals(0xFF000000, image.getRGB(1, 0));
+        assertEquals(0xFF000000, image.getRGB(0, 1));
+        assertEquals(0xFF000000, image.getRGB(1, 1));
+    }
+
+    @Test
+    void convertsOneValuesToWhitePixels() {
+        DistanceImageBinarizer binarizer =
+                new DistanceImageBinarizer(new EuclideanColorDistance(), TARGET_COLOR, 10);
+
+        BufferedImage image = binarizer.toBufferedImage(new int[][] {
+                { 1, 1, 1 }
+        });
+
+        assertEquals(3, image.getWidth());
+        assertEquals(1, image.getHeight());
+        assertEquals(0xFFFFFFFF, image.getRGB(0, 0));
+        assertEquals(0xFFFFFFFF, image.getRGB(1, 0));
+        assertEquals(0xFFFFFFFF, image.getRGB(2, 0));
+    }
+
+    @Test
+    void preservesRowsAndColumnsWhenConvertingMixedValues() {
+        DistanceImageBinarizer binarizer =
+                new DistanceImageBinarizer(new EuclideanColorDistance(), TARGET_COLOR, 10);
+
+        BufferedImage image = binarizer.toBufferedImage(new int[][] {
+                { 1, 0, 1 },
+                { 0, 1, 0 }
+        });
+
+        assertEquals(3, image.getWidth());
+        assertEquals(2, image.getHeight());
+        assertEquals(0xFFFFFFFF, image.getRGB(0, 0));
+        assertEquals(0xFF000000, image.getRGB(1, 0));
+        assertEquals(0xFFFFFFFF, image.getRGB(2, 0));
+        assertEquals(0xFF000000, image.getRGB(0, 1));
+        assertEquals(0xFFFFFFFF, image.getRGB(1, 1));
+        assertEquals(0xFF000000, image.getRGB(2, 1));
+    }
 
     @Test
     void convertsPixelsToBinaryValuesUsingTheirColorDistance() {
