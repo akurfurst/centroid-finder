@@ -50,7 +50,6 @@ public class DistanceImageBinarizer implements ImageBinarizer {
             for (int y = 0; y< image.getHeight(); y++) {
                 int color = image.getRGB(x, y);
                 color = color & 0xFFFFFF;
-                // TODO: Add color distance check
                 double distance = distanceFinder.distance(color, targetColor);
                 if(distance < threshold) binaryArray[y][x] = 1;
                 else binaryArray[y][x] = 0;
