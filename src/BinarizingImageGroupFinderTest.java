@@ -9,6 +9,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 class BinarizingImageGroupFinderTest {
+    private static final int TARGET_COLOR = 0xFFA200;
 
     private final List<Group> groupsList = List.of(
         new Group(6987, new Coordinate(533, 510)),
@@ -61,5 +62,64 @@ class BinarizingImageGroupFinderTest {
         assertEquals(expected, actual);
     }
     
-    // TODO: Generate more tests
+    @Test
+    void passesTheImageToTheBinarizerAndItsOutputToTheGroupFinder() {
+        BufferedImage image = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
+        int[][] binaryImage = { { 1, 0 } };
+        List<Group> expected = List.of(new Group(2, new Coordinate(0, 0)));
+        int[] binarizerCalls = { 0 };
+        int[] groupFinderCalls = { 0 };
+
+        ImageBinarizer binarizer = new ImageBinarizer() {
+            @Override
+            public int[][] toBinaryArray(BufferedImage actualImage) {
+                binarizerCalls[0]++;
+                assertSame(image, actualImage);
+                return binaryImage;
+            }
+
+            @Override
+            public BufferedImage toBufferedImage(int[][] ignored) {
+                throw new UnsupportedOperationException("Not used by this test");
+            }
+        };
+        BinaryGroupFinder groupFinder = actualBinaryImage -> {
+            groupFinderCalls[0]++;
+            assertSame(binaryImage, actualBinaryImage);
+            return expected;
+        };
+        BinarizingImageGroupFinder finder = new BinarizingImageGroupFinder(binarizer, groupFinder);
+
+        assertSame(expected, finder.findConnectedGroups(image));
+        assertEquals(1, binarizerCalls[0]);
+        assertEquals(1, groupFinderCalls[0]);
+    }
+
+    @Test
+    void findsGroupsInASmallImageUsingTheRealCollaborators() {
+        BufferedImage image = new BufferedImage(4, 3, BufferedImage.TYPE_INT_RGB);
+        image.setRGB(0, 0, TARGET_COLOR);
+        image.setRGB(1, 0, TARGET_COLOR);
+        image.setRGB(1, 1, TARGET_COLOR);
+        image.setRGB(3, 2, TARGET_COLOR);
+
+        ImageGroupFinder finder = new BinarizingImageGroupFinder(
+                new DistanceImageBinarizer(new EuclideanColorDistance(), TARGET_COLOR, 1),
+                new DfsBinaryGroupFinder());
+
+        assertEquals(List.of(
+                        new Group(3, new Coordinate(0, 0)),
+                        new Group(1, new Coordinate(3, 2))),
+                finder.findConnectedGroups(image));
+    }
+
+    @Test
+    void returnsNoGroupsWhenTheImageContainsNoMatchingPixels() {
+        BufferedImage image = new BufferedImage(2, 2, BufferedImage.TYPE_INT_RGB);
+        ImageGroupFinder finder = new BinarizingImageGroupFinder(
+                new DistanceImageBinarizer(new EuclideanColorDistance(), TARGET_COLOR, 0),
+                new DfsBinaryGroupFinder());
+
+        assertEquals(List.of(), finder.findConnectedGroups(image));
+    }
 }
