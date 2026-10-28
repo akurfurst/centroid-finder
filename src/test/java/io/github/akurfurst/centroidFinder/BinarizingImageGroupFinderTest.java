@@ -1,3 +1,5 @@
+package io.github.akurfurst.centroidFinder;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import javax.imageio.ImageIO;
