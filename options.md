@@ -23,7 +23,7 @@
 
 ----
 
-## OpenCV
+## [OpenCV](https://docs.opencv.org/4.13.0/javadoc/index.html)
 ### Pros
 - Last updated July 2026
 - Supports live video feed
@@ -42,7 +42,7 @@
 </dependency>
 ```
 ---
-## JCodec
+## [JCodec](http://www.jcodec.org/)
 ### Pros
 - FrameGrab.getFrameFromFile returns a BufferedImage
 ### Cons
