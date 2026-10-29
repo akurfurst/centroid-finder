@@ -1,7 +1,7 @@
 # Video Libraries
 
 
-## JavaCV
+## [JavaCV](https://bytedeco.org/javacv/apidocs/)
 ### Pros:
 - Widly used libray and updated recently
 - Able to give a BufferedImage for each frame in the video
@@ -41,14 +41,21 @@
     <scope>runtime</scope>
 </dependency>
 ```
-
+---
 ## JCodec
 ### Pros
-- 
+- FrameGrab.getFrameFromFile returns a BufferedImage
 ### Cons
-- 
+- Does not support live video
+- Last updated July 2019
 
 ---
 ```xml
-
+<!-- Source: https://mvnrepository.com/artifact/org.jcodec/jcodec -->
+<dependency>
+    <groupId>org.jcodec</groupId>
+    <artifactId>jcodec</artifactId>
+    <version>0.2.5</version>
+    <scope>compile</scope>
+</dependency>
 ```
