@@ -1,18 +1,44 @@
 # Video Plan
 
-## videoproceessor
-- contains the main for video proceessing
-- create the output csv
-- call a meethod to open the video and process each frame
-- - pass in the csv
-- - pass in video
+## videoprocessor.java
+- Contains the main for video proceessing
 
-## videoProcessorHelpers
-- go through each frame 
-- get the largest group
-- output largest group to csv with time and coordinate
-- Call findConnectedGroups
-- get the group at index 0 from findConnectedGroups,
-- - if no group the add (-1, -1)
-- output timestamp and coordinate of largest group
-- done
+### public static void main(String args[])
+- Make a new VideoProcessorHelper with a BinaryGroupFinder
+- Call a processVideo in the VideoProcessorHelper with the video file as the parameter
+
+- Make a new CSVCreator
+- Call CSVCreator with result of processVideo
+
+
+## VideoProcessorHelper.java
+- Have a BinaryGroupFinder variable
+
+### public List\<LargestCentroid> processVideo( video_file )
+- Create a list of LargestCentroids
+- For each Frame 
+- Convert Frame into a BufferedImage (if not already)
+- Call the BinaryGroupFinder.findConnectedGroups() on the Frame
+- Take the first index of result
+    - If no result then new Centroid at -1,-1 of size 0 (nothing)
+- Store Centroid & Time in list
+- Return the list
+
+## record LargestCentroid
+- Centroid
+- Time (seconds)
+
+## CSVCreator.java
+
+### public void CreateCSV( List\<LargestCentroid> )
+- Creates CSV file
+    - Error checks
+- For each LargestCentroid
+- Add the LargestCentroid to the CSV
+
+
+> ## Possible Additions  
+> * Create a binary video representing the tracked centroid(s) 
+> * Varying frame intervals  
+> * Tracking multiple centroids   
+> * More video types
