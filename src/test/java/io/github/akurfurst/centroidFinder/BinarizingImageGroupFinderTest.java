@@ -63,6 +63,9 @@ class BinarizingImageGroupFinderTest {
         assertEquals(expected, actual);
     }
     
+
+    // This test confirms that the binarizer and groupFinder are properly used by creating explicit helper implementations
+    // Prevents replacing the image and/or binaryArray
     @Test
     void passesTheImageToTheBinarizerAndItsOutputToTheGroupFinder() {
         BufferedImage image = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
@@ -71,11 +74,13 @@ class BinarizingImageGroupFinderTest {
         int[] binarizerCalls = { 0 };
         int[] groupFinderCalls = { 0 };
 
+        // An ImageBinarizer that will always return the same binaryImage.
         ImageBinarizer binarizer = new ImageBinarizer() {
             @Override
             public int[][] toBinaryArray(BufferedImage actualImage) {
                 binarizerCalls[0]++;
-                assertSame(image, actualImage);
+                // Assert the image passed to the finder is the same
+                assertSame(image, actualImage); 
                 return binaryImage;
             }
 
@@ -84,6 +89,8 @@ class BinarizingImageGroupFinderTest {
                 throw new UnsupportedOperationException("Not used by this test");
             }
         };
+
+        // A GroupFinder that will always return the expected.
         BinaryGroupFinder groupFinder = actualBinaryImage -> {
             groupFinderCalls[0]++;
             assertSame(binaryImage, actualBinaryImage);
@@ -91,13 +98,17 @@ class BinarizingImageGroupFinderTest {
         };
         BinarizingImageGroupFinder finder = new BinarizingImageGroupFinder(binarizer, groupFinder);
 
+        // Ensures ImageBinarizer & GroupFinder were only called once, 
+        // and that the BinarizingImageGroupFinder returned the expected value
         assertSame(expected, finder.findConnectedGroups(image));
         assertEquals(1, binarizerCalls[0]);
         assertEquals(1, groupFinderCalls[0]);
     }
 
+
+    // A small test that uses existing classes
     @Test
-    void findsGroupsInASmallImageUsingTheRealCollaborators() {
+    void findsGroupsInASmallImageUsingTheRealHelpers() {
         BufferedImage image = new BufferedImage(4, 3, BufferedImage.TYPE_INT_RGB);
         image.setRGB(0, 0, TARGET_COLOR);
         image.setRGB(1, 0, TARGET_COLOR);
@@ -114,6 +125,7 @@ class BinarizingImageGroupFinderTest {
                 finder.findConnectedGroups(image));
     }
 
+    // No matching pixels test (all are an invalid color)
     @Test
     void returnsNoGroupsWhenTheImageContainsNoMatchingPixels() {
         BufferedImage image = new BufferedImage(2, 2, BufferedImage.TYPE_INT_RGB);

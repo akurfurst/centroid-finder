@@ -65,6 +65,7 @@ class DfsBinaryGroupFinderTest {
                 }));
     }
 
+    // Confirms centroids are properly indentified
     @Test
     void computesCentroidsUsingIntegerDivision() {
         assertEquals(List.of(new Group(3, new Coordinate(0, 0))),
@@ -74,6 +75,7 @@ class DfsBinaryGroupFinderTest {
                 }));
     }
 
+    // Confirms groups are properly sized
     @Test
     void returnsGroupsInDescendingSizeOrder() {
         assertEquals(List.of(
@@ -90,6 +92,7 @@ class DfsBinaryGroupFinderTest {
                 }));
     }
 
+    // If sizes are equal, ensures centroid coordinates are then compared.
     @Test
     void breaksEqualSizeTiesByDescendingCentroidCoordinates() {
         assertEquals(List.of(

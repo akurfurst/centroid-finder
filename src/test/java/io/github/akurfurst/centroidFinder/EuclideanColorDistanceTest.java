@@ -51,6 +51,7 @@ class EuclideanColorDistanceTest {
         assertEquals(Math.sqrt(12500.0), distanceFinder.distance(0xC86432, 0x649632), 0.0);
     }
 
+    // colorA-colorB = colorB-colorA
     @Test
     void distanceIsSymmetric() {
         assertEquals(distanceFinder.distance(0x123456, 0xABCDEF),
